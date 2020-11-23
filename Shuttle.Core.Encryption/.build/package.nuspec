@@ -14,21 +14,14 @@
 		<copyright>Copyright (c) {year}, Eben Roux</copyright>
 		<tags>shuttle encryption</tags>
 	  <dependencies>
-	    <group>
-	      <dependency id="Shuttle.Core.Contract" version="{Shuttle.Core.Contract-version}" />
-	      <dependency id="Shuttle.Core.Configuration" version="{Shuttle.Core.Configuration-version}" />
-	    </group>
-
 	    <group targetFramework="netstandard2.0">
 	      <dependency id="Shuttle.Core.Contract" version="{Shuttle.Core.Contract-version}" />
 	      <dependency id="Shuttle.Core.Configuration" version="{Shuttle.Core.Configuration-version}" />
-	      <dependency id="System.Configuration.ConfigurationManager" version="{System.Configuration.ConfigurationManager-version}" />
 	    </group>
 
-	    <group targetFramework="netcoreapp2.1">
+	    <group targetFramework="netstandard2.1">
 	      <dependency id="Shuttle.Core.Contract" version="{Shuttle.Core.Contract-version}" />
 	      <dependency id="Shuttle.Core.Configuration" version="{Shuttle.Core.Configuration-version}" />
-	      <dependency id="System.Configuration.ConfigurationManager" version="{System.Configuration.ConfigurationManager-version}" />
 	    </group>
 	  </dependencies>
 	</metadata>
