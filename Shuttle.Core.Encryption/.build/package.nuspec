@@ -1,35 +1,37 @@
 <?xml version="1.0"?>
 <package>
-	<metadata>
-		<id>Shuttle.Core.Encryption</id>
-		<version>{semver}</version>
-		<authors>Eben Roux</authors>
-		<owners>Eben Roux</owners>
-		<licenseUrl>https://github.com/shuttle/Shuttle.Core.Encryption/raw/master/LICENSE</licenseUrl>
-		<projectUrl>https://github.com/shuttle/Shuttle.Core.Encryption</projectUrl>
-		<iconUrl>https://raw.githubusercontent.com/Shuttle/Shuttle.Core.Encryption/master/.media/logo.png</iconUrl>
-		<requireLicenseAcceptance>false</requireLicenseAcceptance>
-	  <description>Encryption adapter.</description>
-		<releaseNotes/>
-		<copyright>Copyright (c) {year}, Eben Roux</copyright>
-		<tags>shuttle encryption</tags>
-	  <dependencies>
-	    <group>
-	      <dependency id="Shuttle.Core.Contract" version="{Shuttle.Core.Contract-version}" />
-	      <dependency id="Shuttle.Core.Configuration" version="{Shuttle.Core.Configuration-version}" />
-	    </group>
-
-	    <group targetFramework="netstandard2.0">
-	      <dependency id="Shuttle.Core.Contract" version="{Shuttle.Core.Contract-version}" />
-	      <dependency id="Shuttle.Core.Configuration" version="{Shuttle.Core.Configuration-version}" />
-	      <dependency id="System.Configuration.ConfigurationManager" version="{System.Configuration.ConfigurationManager-version}" />
-	    </group>
-
-	    <group targetFramework="netcoreapp2.1">
-	      <dependency id="Shuttle.Core.Contract" version="{Shuttle.Core.Contract-version}" />
-	      <dependency id="Shuttle.Core.Configuration" version="{Shuttle.Core.Configuration-version}" />
-	      <dependency id="System.Configuration.ConfigurationManager" version="{System.Configuration.ConfigurationManager-version}" />
-	    </group>
-	  </dependencies>
-	</metadata>
+  <metadata>
+    <id>Shuttle.Core.Encryption</id>
+    <version>{semver}</version>
+    <authors>Eben Roux</authors>
+    <owners>Eben Roux</owners>
+    <license type="expression">BSD-3-Clause</license>
+    <projectUrl>https://github.com/shuttle/Shuttle.Core.Encryption</projectUrl>
+    <icon>images\logo.png</icon>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Encryption adapter.</description>
+    <releaseNotes />
+    <copyright>Copyright (c) {year}, Eben Roux</copyright>
+    <tags>shuttle encryption</tags>
+    <dependencies>
+      <group>
+        <dependency id="Shuttle.Core.Contract" version="{Shuttle.Core.Contract-version}" />
+        <dependency id="Shuttle.Core.Configuration" version="{Shuttle.Core.Configuration-version}" />
+      </group>
+      <group targetFramework="netstandard2.0">
+        <dependency id="Shuttle.Core.Contract" version="{Shuttle.Core.Contract-version}" />
+        <dependency id="Shuttle.Core.Configuration" version="{Shuttle.Core.Configuration-version}" />
+        <dependency id="System.Configuration.ConfigurationManager" version="{System.Configuration.ConfigurationManager-version}" />
+      </group>
+      <group targetFramework="netcoreapp2.1">
+        <dependency id="Shuttle.Core.Contract" version="{Shuttle.Core.Contract-version}" />
+        <dependency id="Shuttle.Core.Configuration" version="{Shuttle.Core.Configuration-version}" />
+        <dependency id="System.Configuration.ConfigurationManager" version="{System.Configuration.ConfigurationManager-version}" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="..\..\..\..\.media\logo.png" target="images\" />
+	<file src="lib\**\*.*" target="lib" />
+  </files>
 </package>
