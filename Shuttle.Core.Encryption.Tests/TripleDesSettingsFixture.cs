@@ -2,7 +2,6 @@
 using System.IO;
 using Microsoft.Extensions.Configuration;
 using NUnit.Framework;
-using NUnit.Framework.Constraints;
 
 namespace Shuttle.Core.Encryption.Tests
 {
@@ -11,7 +10,9 @@ namespace Shuttle.Core.Encryption.Tests
     {
         private IConfigurationSection GetSection(string file)
         {
-            return new ConfigurationBuilder().AddJsonFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $@".\{file}")).Build().GetSection(TripleDesSettings.SectionName);
+            return new ConfigurationBuilder()
+                .AddJsonFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $@".\{file}")).Build()
+                .GetSection(TripleDesSettings.SectionName);
         }
 
         [Test]
