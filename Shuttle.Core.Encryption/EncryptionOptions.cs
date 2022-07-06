@@ -6,18 +6,18 @@ namespace Shuttle.Core.Encryption
 {
     public class EncryptionOptions
     {
-        private readonly IServiceCollection _services;
-
         public EncryptionOptions(IServiceCollection services)
         {
             Guard.AgainstNull(services, nameof(services));
 
-            _services = services;
+            Services = services;
         }
+
+        public IServiceCollection Services { get; }
 
         public EncryptionOptions AddTripleDes(string key)
         {
-            _services.AddOptions<TripleDesSettings>().Configure(options =>
+            Services.AddOptions<TripleDesSettings>().Configure(options =>
             {
                 options.Key = key;
             });
@@ -27,7 +27,7 @@ namespace Shuttle.Core.Encryption
 
         public EncryptionOptions AddTripleDes()
         {
-            _services.AddOptions<TripleDesSettings>().Configure<IConfiguration>((options, configuration) =>
+            Services.AddOptions<TripleDesSettings>().Configure<IConfiguration>((options, configuration) =>
             {
                 options.Key = configuration.GetSection(TripleDesSettings.SectionName)?.Key;
             });
