@@ -23,7 +23,7 @@ services.AddEncryption(options => {
 });
 ```
 
-Will add the `EncryptionService` singleton and also add the `TripleDesEncryptionAlgorithm` instance using the given symmetric `key`.  The key may also be read from configuration by not specifying it, in which case the following default structure will be used:
+Will try to add the `EncryptionService` singleton. with an option to add the `TripleDesEncryptionAlgorithm` instance using the given symmetric `key`.  The key may also be read from configuration by not specifying it, in which case the following default structure will be used:
 
 ```
 {
