@@ -15,7 +15,7 @@ namespace Shuttle.Core.Encryption.Tests
         }
 
         [Test]
-        [TestCase("appSettings.json")]
+        [TestCase("appsettings.json")]
         public void Should_be_able_to_load_the_TripleDes_section(string file)
         {
             var settings = new TripleDesSettings();
