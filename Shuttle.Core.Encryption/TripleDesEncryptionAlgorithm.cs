@@ -10,7 +10,7 @@ namespace Shuttle.Core.Encryption
     {
         private readonly TripleDESCryptoServiceProvider _provider;
 
-        public TripleDesEncryptionAlgorithm(IOptions<TripleDesSettings> settings)
+        public TripleDesEncryptionAlgorithm(IOptions<TripleDesOptions> settings)
         {
             Guard.AgainstNull(settings, nameof(settings));
 

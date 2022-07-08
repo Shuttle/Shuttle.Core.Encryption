@@ -12,7 +12,7 @@ namespace Shuttle.Core.Encryption.Tests
         public void Should_be_able_to_encrypt_and_decrypt_using_3des()
         {
             var algorithm =
-                new TripleDesEncryptionAlgorithm(new OptionsWrapper<TripleDesSettings>(new TripleDesSettings {Key = Guid.NewGuid().ToString()}));
+                new TripleDesEncryptionAlgorithm(new OptionsWrapper<TripleDesOptions>(new TripleDesOptions {Key = Guid.NewGuid().ToString()}));
 
             const string text = "triple des encryption algorithm";
 

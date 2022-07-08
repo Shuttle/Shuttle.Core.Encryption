@@ -8,20 +8,19 @@ namespace Shuttle.Core.Encryption.Tests
     [TestFixture]
     public class TripleDesSettingsFixture
     {
-        private IConfigurationSection GetSection(string file)
+        private IConfigurationSection GetSettings()
         {
             return new ConfigurationBuilder()
-                .AddJsonFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $@".\{file}")).Build()
-                .GetSection(TripleDesSettings.SectionName);
+                .AddJsonFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $@".\appsettings.json")).Build()
+                .GetSection(TripleDesOptions.SectionName);
         }
 
         [Test]
-        [TestCase("appsettings.json")]
-        public void Should_be_able_to_load_the_TripleDes_section(string file)
+        public void Should_be_able_to_load_the_TripleDes_section()
         {
-            var settings = new TripleDesSettings();
+            var settings = new TripleDesOptions();
 
-            GetSection(file).Bind(settings);
+            GetSettings().Bind(settings);
 
             Assert.IsNotNull(settings);
             Assert.IsNotNull(settings.Key);
