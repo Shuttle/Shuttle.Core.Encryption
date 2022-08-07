@@ -17,15 +17,19 @@ There is also an `IEncryptionService` that acts as a central container for all r
 
 In order to add encryption:
 
-```
-services.AddEncryption(options => {
-	options.AddTripleDes(key);
+```c#
+services.AddEncryption(builder => {
+	builder.TripleDesOptions.Key = "encryption-key";
+
+	builder.AddTripleDes();
 });
 ```
 
-Will try to add the `EncryptionService` singleton. with an option to add the `TripleDesEncryptionAlgorithm` instance using the given symmetric `key`.  The key may also be read from configuration by not specifying it, in which case the following default structure will be used:
+Will try to add the `EncryptionService` singleton, with an option to add the `TripleDesEncryptionAlgorithm` instance using the given symmetric `Key`.
 
-```
+The default JSON settings structure is as follows:
+
+```json
 {
 	"Shuttle": {
 		"TripleDes": {

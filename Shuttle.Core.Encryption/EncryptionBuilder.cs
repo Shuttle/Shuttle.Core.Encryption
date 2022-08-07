@@ -16,9 +16,16 @@ namespace Shuttle.Core.Encryption
         public IServiceCollection Services { get; }
         public TripleDesOptions TripleDesOptions { get; set; } = new TripleDesOptions();
 
-        public EncryptionBuilder AddTripleDes(string key)
+        public EncryptionBuilder AddTripleDes()
         {
-            TripleDesOptions.Key = key;
+            Services.AddSingleton<IEncryptionAlgorithm, TripleDesEncryptionAlgorithm>();
+
+            return this;
+        }
+
+        public EncryptionBuilder AddNull()
+        {
+            Services.AddSingleton<IEncryptionAlgorithm, NullEncryptionAlgorithm>();
 
             return this;
         }
