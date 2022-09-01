@@ -117,10 +117,15 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="DuplicateEncryptionAlgorithmException" xml:space="preserve">
+    <value>An encryption algorithm with name '{0}' has already been registered.</value>
+    <comment>0 = name</comment>
+  </data>
+  <data name="EncryptionAlgorithmMissingException" xml:space="preserve">
+    <value>Could not find an encryption algorithm with name '{0}'.</value>
+    <comment>0 = name</comment>
+  </data>
   <data name="TripleDesKeyMissing" xml:space="preserve">
     <value>The `tripleDes` section in the application configuration file may not have an empty value for the 'key' attribute.</value>
-  </data>
-  <data name="TripleDesSectionMissing" xml:space="preserve">
-    <value>In order to use TripleDES cryptography you need to add the 'tripleDes' section to the application configuration file.  Remember to add the section handler.</value>
   </data>
 </root>

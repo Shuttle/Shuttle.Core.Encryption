@@ -1,5 +1,7 @@
+using System;
 using System.IO;
 using System.Security.Cryptography;
+using Microsoft.Extensions.Options;
 using Shuttle.Core.Contract;
 
 namespace Shuttle.Core.Encryption
@@ -8,15 +10,15 @@ namespace Shuttle.Core.Encryption
     {
         private readonly TripleDESCryptoServiceProvider _provider;
 
-        public TripleDesEncryptionAlgorithm(ITripleDesConfiguration configuration)
+        public TripleDesEncryptionAlgorithm(IOptions<TripleDesOptions> settings)
         {
-            Guard.AgainstNull(configuration, nameof(configuration));
+            Guard.AgainstNull(settings, nameof(settings));
 
             _provider = new TripleDESCryptoServiceProvider
             {
                 IV = new byte[8],
                 Key =
-                    new PasswordDeriveBytes(configuration.Key, new byte[0]).CryptDeriveKey("RC2", "MD5", 128,
+                    new PasswordDeriveBytes(settings.Value.Key, Array.Empty<byte>()).CryptDeriveKey("RC2", "MD5", 128,
                         new byte[8])
             };
         }
@@ -57,7 +59,7 @@ namespace Shuttle.Core.Encryption
 
                 ms.Position = 0;
 
-                ms.Read(encryptedBytes, 0, (int) ms.Length);
+                _ = ms.Read(encryptedBytes, 0, (int) ms.Length);
             }
 
             return encryptedBytes;
@@ -83,7 +85,7 @@ namespace Shuttle.Core.Encryption
 
                 ms.Position = 0;
 
-                ms.Read(plainBytes, 0, (int) ms.Length);
+                _ = ms.Read(plainBytes, 0, (int) ms.Length);
             }
 
             return plainBytes;

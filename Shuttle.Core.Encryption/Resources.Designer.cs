@@ -19,7 +19,7 @@ namespace Shuttle.Core.Encryption {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -61,20 +61,29 @@ namespace Shuttle.Core.Encryption {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to An encryption algorithm with name &apos;{0}&apos; has already been registered..
+        /// </summary>
+        internal static string DuplicateEncryptionAlgorithmException {
+            get {
+                return ResourceManager.GetString("DuplicateEncryptionAlgorithmException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Could not find an encryption algorithm with name &apos;{0}&apos;..
+        /// </summary>
+        internal static string EncryptionAlgorithmMissingException {
+            get {
+                return ResourceManager.GetString("EncryptionAlgorithmMissingException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The `tripleDes` section in the application configuration file may not have an empty value for the &apos;key&apos; attribute..
         /// </summary>
         internal static string TripleDesKeyMissing {
             get {
                 return ResourceManager.GetString("TripleDesKeyMissing", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to In order to use TripleDES cryptography you need to add the &apos;tripleDes&apos; section to the application configuration file.  Remember to add the section handler..
-        /// </summary>
-        internal static string TripleDesSectionMissing {
-            get {
-                return ResourceManager.GetString("TripleDesSectionMissing", resourceCulture);
             }
         }
     }
