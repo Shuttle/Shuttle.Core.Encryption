@@ -17,7 +17,7 @@ namespace Shuttle.Core.Encryption.Tests
             const string text = "triple des encryption algorithm";
 
             Assert.AreEqual(text,
-                Encoding.UTF8.GetString(algorithm.Decrypt(algorithm.Encrypt(Encoding.UTF8.GetBytes(text)))));
+                Encoding.UTF8.GetString(algorithm.Decrypt(algorithm.Encrypt(Encoding.UTF8.GetBytes(text)).Result).Result));
         }
     }
 }

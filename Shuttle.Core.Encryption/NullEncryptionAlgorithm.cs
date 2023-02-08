@@ -1,17 +1,19 @@
+using System.Threading.Tasks;
+
 namespace Shuttle.Core.Encryption
 {
     public class NullEncryptionAlgorithm : IEncryptionAlgorithm
     {
         public string Name => "null";
 
-        public byte[] Encrypt(byte[] bytes)
+        public Task<byte[]> Encrypt(byte[] bytes)
         {
-            return bytes;
+            return Task.FromResult(bytes);
         }
 
-        public byte[] Decrypt(byte[] bytes)
+        public Task<byte[]> Decrypt(byte[] bytes)
         {
-            return bytes;
+            return Task.FromResult(bytes);
         }
     }
 }

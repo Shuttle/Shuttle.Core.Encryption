@@ -17,16 +17,6 @@ namespace Shuttle.Core.Encryption
             }
         }
 
-        public byte[] Encrypt(string name, byte[] bytes)
-        {
-            return Get(name).Encrypt(bytes);
-        }
-
-        public byte[] Decrypt(string name, byte[] bytes)
-        {
-            return Get(name).Decrypt(bytes);
-        }
-
         public IEncryptionService Add(IEncryptionAlgorithm encryptionAlgorithm)
         {
             Guard.AgainstNull(encryptionAlgorithm, nameof(encryptionAlgorithm));
@@ -52,6 +42,11 @@ namespace Shuttle.Core.Encryption
             }
 
             return _encryptionAlgorithms[name];
+        }
+
+        public bool Contains(string name)
+        {
+            return _encryptionAlgorithms.ContainsKey(Guard.AgainstNullOrEmptyString(name, nameof(name)));
         }
     }
 }
