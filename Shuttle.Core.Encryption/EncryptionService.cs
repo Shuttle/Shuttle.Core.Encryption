@@ -48,5 +48,7 @@ namespace Shuttle.Core.Encryption
         {
             return _encryptionAlgorithms.ContainsKey(Guard.AgainstNullOrEmptyString(name, nameof(name)));
         }
+
+        public IEnumerable<IEncryptionAlgorithm> Algorithms => _encryptionAlgorithms.Values;
     }
 }
