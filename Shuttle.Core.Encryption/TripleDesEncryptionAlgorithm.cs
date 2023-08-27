@@ -26,26 +26,66 @@ namespace Shuttle.Core.Encryption
 
         public string Name => "3DES";
 
-        public async Task<byte[]> Encrypt(byte[] bytes)
+        public byte[] Encrypt(byte[] bytes)
         {
             Guard.AgainstNull(bytes, nameof(bytes));
 
-            return await TripleDesEncrypt(bytes);
+            return TripleDesEncrypt(bytes);
         }
 
-        public async Task<byte[]> Decrypt(byte[] bytes)
+        public async Task<byte[]> EncryptAsync(byte[] bytes)
         {
             Guard.AgainstNull(bytes, nameof(bytes));
 
-            return await TripleDesDecrypt(bytes);
+            return await TripleDesEncryptAsync(bytes);
         }
 
-        private async Task<byte[]> TripleDesEncrypt(byte[] plain)
+        public byte[] Decrypt(byte[] bytes)
         {
-            return await GetEncryptedBytes(plain.Length, plain);
+            Guard.AgainstNull(bytes, nameof(bytes));
+
+            return TripleDesDecrypt(bytes);
         }
 
-        private async Task<byte[]> GetEncryptedBytes(int plainLength, byte[] plainBytes)
+        public async Task<byte[]> DecryptAsync(byte[] bytes)
+        {
+            Guard.AgainstNull(bytes, nameof(bytes));
+
+            return await TripleDesDecryptAsync(bytes);
+        }
+
+        private byte[] TripleDesEncrypt(byte[] plain)
+        {
+            return GetEncryptedBytes(plain.Length, plain);
+        }
+
+        private byte[] GetEncryptedBytes(int plainLength, byte[] plainBytes)
+        {
+            byte[] encryptedBytes;
+
+            using (var ms = new MemoryStream(plainLength * 2 - 1))
+            using (var cs = new CryptoStream(ms, _provider.CreateEncryptor(), CryptoStreamMode.Write))
+            {
+                cs.Write(plainBytes, 0, plainBytes.Length);
+
+                cs.FlushFinalBlock();
+
+                encryptedBytes = new byte[(int)ms.Length];
+
+                ms.Position = 0;
+
+                _ = ms.Read(encryptedBytes, 0, (int)ms.Length);
+            }
+
+            return encryptedBytes;
+        }
+
+        private async Task<byte[]> TripleDesEncryptAsync(byte[] plain)
+        {
+            return await GetEncryptedBytesAsync(plain.Length, plain);
+        }
+
+        private async Task<byte[]> GetEncryptedBytesAsync(int plainLength, byte[] plainBytes)
         {
             byte[] encryptedBytes;
 
@@ -70,12 +110,38 @@ namespace Shuttle.Core.Encryption
             return encryptedBytes;
         }
 
-        private Task<byte[]> TripleDesDecrypt(byte[] encrypted)
+        private byte[] TripleDesDecrypt(byte[] encrypted)
         {
             return GetPlainBytes(encrypted.Length, encrypted);
         }
 
-        private async Task<byte[]> GetPlainBytes(int secureLength, byte[] encryptedBytes)
+        private byte[] GetPlainBytes(int secureLength, byte[] encryptedBytes)
+        {
+            byte[] plainBytes;
+
+            using (var ms = new MemoryStream(secureLength))
+            using (var cs = new CryptoStream(ms, _provider.CreateDecryptor(), CryptoStreamMode.Write))
+            {
+                cs.Write(encryptedBytes, 0, encryptedBytes.Length);
+
+                cs.FlushFinalBlock();
+
+                plainBytes = new byte[(int)ms.Length];
+
+                ms.Position = 0;
+
+                _ = ms.Read(plainBytes, 0, (int)ms.Length);
+            }
+
+            return plainBytes;
+        }
+
+        private Task<byte[]> TripleDesDecryptAsync(byte[] encrypted)
+        {
+            return GetPlainBytesAsync(encrypted.Length, encrypted);
+        }
+
+        private async Task<byte[]> GetPlainBytesAsync(int secureLength, byte[] encryptedBytes)
         {
             byte[] plainBytes;
 

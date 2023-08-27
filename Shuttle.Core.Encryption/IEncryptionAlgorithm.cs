@@ -6,7 +6,10 @@ namespace Shuttle.Core.Encryption
     {
         string Name { get; }
 
-        Task<byte[]> Encrypt(byte[] bytes);
-        Task<byte[]> Decrypt(byte[] bytes);
+        byte[] Encrypt(byte[] bytes);
+        byte[] Decrypt(byte[] bytes);
+
+        Task<byte[]> EncryptAsync(byte[] bytes);
+        Task<byte[]> DecryptAsync(byte[] bytes);
     }
 }
