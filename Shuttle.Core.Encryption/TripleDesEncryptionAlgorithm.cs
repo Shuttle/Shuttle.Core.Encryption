@@ -59,9 +59,9 @@ namespace Shuttle.Core.Encryption
             return TripleDesDecryptAsync(encrypted, true).GetAwaiter().GetResult();
         }
 
-        private Task<byte[]> TripleDesDecryptAsync(byte[] encrypted)
+        private async Task<byte[]> TripleDesDecryptAsync(byte[] encrypted)
         {
-            return TripleDesDecryptAsync(encrypted, false);
+            return await TripleDesDecryptAsync(encrypted, false);
         }
 
         private async Task<byte[]> TripleDesDecryptAsync(byte[] encrypted, bool sync)
