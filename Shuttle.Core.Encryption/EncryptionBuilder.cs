@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Shuttle.Core.Contract;
 
 namespace Shuttle.Core.Encryption
@@ -12,14 +11,6 @@ namespace Shuttle.Core.Encryption
         }
 
         public IServiceCollection Services { get; }
-        public TripleDesOptions TripleDesOptions { get; set; } = new TripleDesOptions();
-
-        public EncryptionBuilder AddTripleDes()
-        {
-            Services.AddSingleton<IEncryptionAlgorithm, TripleDesEncryptionAlgorithm>();
-
-            return this;
-        }
 
         public EncryptionBuilder AddNull()
         {
