@@ -70,6 +70,15 @@ namespace Shuttle.Core.Encryption {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Array argument &apos;{0}&apos; is empty..
+        /// </summary>
+        internal static string EmptyArrayException {
+            get {
+                return ResourceManager.GetString("EmptyArrayException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Could not find an encryption algorithm with name &apos;{0}&apos;..
         /// </summary>
         internal static string EncryptionAlgorithmMissingException {

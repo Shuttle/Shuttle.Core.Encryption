@@ -3,7 +3,7 @@ using Shuttle.Core.Contract;
 
 namespace Shuttle.Core.Encryption
 {
-    public class TripleDesSettingsValidator : IValidateOptions<TripleDesOptions>
+    public class TripleDesOptionsValidator : IValidateOptions<TripleDesOptions>
     {
         public ValidateOptionsResult Validate(string name, TripleDesOptions options)
         {
