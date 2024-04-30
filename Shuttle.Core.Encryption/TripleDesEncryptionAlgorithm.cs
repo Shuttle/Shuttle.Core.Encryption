@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Security.Cryptography;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using Shuttle.Core.Contract;
 
@@ -29,7 +30,14 @@ namespace Shuttle.Core.Encryption
         {
             Guard.AgainstNull(bytes, nameof(bytes));
 
-            return TripleDesEncrypt(bytes);
+            return TripleDesEncryptAsync(bytes, true).GetAwaiter().GetResult();
+        }
+
+        public async Task<byte[]> EncryptAsync(byte[] bytes)
+        {
+            Guard.AgainstNull(bytes, nameof(bytes));
+
+            return await TripleDesEncryptAsync(bytes, false);
         }
 
         public byte[] Decrypt(byte[] bytes)
@@ -39,56 +47,85 @@ namespace Shuttle.Core.Encryption
             return TripleDesDecrypt(bytes);
         }
 
-        private byte[] TripleDesEncrypt(byte[] plain)
+        public async Task<byte[]> DecryptAsync(byte[] bytes)
         {
-            return GetEncryptedBytes(plain.Length, plain);
-        }
+            Guard.AgainstNull(bytes, nameof(bytes));
 
-        private byte[] GetEncryptedBytes(int plainLength, byte[] plainBytes)
-        {
-            byte[] encryptedBytes;
-
-            using (var ms = new MemoryStream(plainLength * 2 - 1))
-            using (var cs = new CryptoStream(ms, _provider.CreateEncryptor(), CryptoStreamMode.Write))
-            {
-                cs.Write(plainBytes, 0, plainBytes.Length);
-
-                cs.FlushFinalBlock();
-
-                encryptedBytes = new byte[(int) ms.Length];
-
-                ms.Position = 0;
-
-                _ = ms.Read(encryptedBytes, 0, (int) ms.Length);
-            }
-
-            return encryptedBytes;
+            return await TripleDesDecryptAsync(bytes);
         }
 
         private byte[] TripleDesDecrypt(byte[] encrypted)
         {
-            return GetPlainBytes(encrypted.Length, encrypted);
+            return TripleDesDecryptAsync(encrypted, true).GetAwaiter().GetResult();
         }
 
-        private byte[] GetPlainBytes(int secureLength, byte[] encryptedBytes)
+        private async Task<byte[]> TripleDesDecryptAsync(byte[] encrypted)
         {
+            return await TripleDesDecryptAsync(encrypted, false);
+        }
+
+        private async Task<byte[]> TripleDesDecryptAsync(byte[] encrypted, bool sync)
+        {
+            Guard.AgainstNull(encrypted, nameof(encrypted));
+
             byte[] plainBytes;
 
-            using (var ms = new MemoryStream(secureLength))
+            using (var ms = new MemoryStream(encrypted.Length))
             using (var cs = new CryptoStream(ms, _provider.CreateDecryptor(), CryptoStreamMode.Write))
             {
-                cs.Write(encryptedBytes, 0, encryptedBytes.Length);
+                if (sync)
+                {
+                    cs.Write(encrypted, 0, encrypted.Length);
+                }
+                else
+                {
+                    await cs.WriteAsync(encrypted, 0, encrypted.Length).ConfigureAwait(false);
+                }
 
                 cs.FlushFinalBlock();
 
-                plainBytes = new byte[(int) ms.Length];
+                plainBytes = new byte[(int)ms.Length];
 
                 ms.Position = 0;
 
-                _ = ms.Read(plainBytes, 0, (int) ms.Length);
+                _ = sync
+                    ? ms.Read(plainBytes, 0, (int)ms.Length)
+                    : await ms.ReadAsync(plainBytes, 0, (int)ms.Length).ConfigureAwait(false);
             }
 
             return plainBytes;
+        }
+
+        private async Task<byte[]> TripleDesEncryptAsync(byte[] plain, bool sync)
+        {
+            Guard.AgainstNull(plain, nameof(plain));
+
+            byte[] encryptedBytes;
+
+            using (var ms = new MemoryStream(plain.Length * 2 - 1))
+            using (var cs = new CryptoStream(ms, _provider.CreateEncryptor(), CryptoStreamMode.Write))
+            {
+                if (sync)
+                {
+                    cs.Write(plain, 0, plain.Length);
+                }
+                else
+                {
+                    await cs.WriteAsync(plain, 0, plain.Length).ConfigureAwait(false);
+                }
+
+                cs.FlushFinalBlock();
+
+                encryptedBytes = new byte[(int)ms.Length];
+
+                ms.Position = 0;
+
+                _ = sync
+                    ? ms.Read(encryptedBytes, 0, (int)ms.Length)
+                    : await ms.ReadAsync(encryptedBytes, 0, (int)ms.Length).ConfigureAwait(false);
+            }
+
+            return encryptedBytes;
         }
     }
 }

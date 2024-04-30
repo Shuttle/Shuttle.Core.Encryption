@@ -121,6 +121,10 @@
     <value>An encryption algorithm with name '{0}' has already been registered.</value>
     <comment>0 = name</comment>
   </data>
+  <data name="EmptyArrayException" xml:space="preserve">
+    <value>Array argument '{0}' is empty.</value>
+    <comment>0 = array argument name</comment>
+  </data>
   <data name="EncryptionAlgorithmMissingException" xml:space="preserve">
     <value>Could not find an encryption algorithm with name '{0}'.</value>
     <comment>0 = name</comment>

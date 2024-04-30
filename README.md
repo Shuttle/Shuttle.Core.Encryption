@@ -19,9 +19,7 @@ In order to add encryption:
 
 ```c#
 services.AddEncryption(builder => {
-	builder.TripleDesOptions.Key = "encryption-key";
-
-	builder.AddTripleDes();
+	builder.AddTripleDes(tripleDesOptions);
 });
 ```
 
@@ -37,4 +35,12 @@ The default JSON settings structure is as follows:
 		}
 	}
 }
+```
+
+## Usage
+
+```c#
+var algorithm = encryptionService.Get("algorithm-name");
+var encrypted = await algorithm.EncryptAsync(Encoding.UTF8.GetBytes("some data"));
+var decrypted = await algorithm.DecryptAsync(encrypted);
 ```
