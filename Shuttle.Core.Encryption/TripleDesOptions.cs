@@ -1,9 +1,8 @@
-﻿namespace Shuttle.Core.Encryption
-{
-    public class TripleDesOptions
-    {
-        public const string SectionName = "Shuttle:TripleDes";
+﻿namespace Shuttle.Core.Encryption;
 
-        public string Key { get; set; }
-    }
+public class TripleDesOptions
+{
+    public const string SectionName = "Shuttle:TripleDes";
+
+    public string Key { get; set; } = string.Empty;
 }

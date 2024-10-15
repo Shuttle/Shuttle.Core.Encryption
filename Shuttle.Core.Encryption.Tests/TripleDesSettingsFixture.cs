@@ -3,28 +3,27 @@ using System.IO;
 using Microsoft.Extensions.Configuration;
 using NUnit.Framework;
 
-namespace Shuttle.Core.Encryption.Tests
+namespace Shuttle.Core.Encryption.Tests;
+
+[TestFixture]
+public class TripleDesSettingsFixture
 {
-    [TestFixture]
-    public class TripleDesSettingsFixture
+    private IConfigurationSection GetSettings()
     {
-        private IConfigurationSection GetSettings()
-        {
-            return new ConfigurationBuilder()
-                .AddJsonFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $@".\appsettings.json")).Build()
-                .GetSection(TripleDesOptions.SectionName);
-        }
+        return new ConfigurationBuilder()
+            .AddJsonFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @".\appsettings.json")).Build()
+            .GetSection(TripleDesOptions.SectionName);
+    }
 
-        [Test]
-        public void Should_be_able_to_load_the_TripleDes_section()
-        {
-            var settings = new TripleDesOptions();
+    [Test]
+    public void Should_be_able_to_load_the_TripleDes_section()
+    {
+        var options = new TripleDesOptions();
 
-            GetSettings().Bind(settings);
+        GetSettings().Bind(options);
 
-            Assert.IsNotNull(settings);
-            Assert.IsNotNull(settings.Key);
-            Assert.AreEqual("triple-des-key", settings.Key);
-        }
+        Assert.That(options, Is.Not.Null);
+        Assert.That(options.Key, Is.Not.Null);
+        Assert.That(options.Key, Is.EqualTo("triple-des-key"));
     }
 }
