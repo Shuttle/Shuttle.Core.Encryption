@@ -10,8 +10,12 @@ public static class TripleDesEncryptionExtensions
     {
         Guard.AgainstNull(builder).Services
             .AddSingleton<IEncryptionAlgorithm, TripleDesEncryptionAlgorithm>()
-            .AddSingleton<IValidateOptions<TripleDesOptions>, TripleDesOptionsValidator>()
-            .AddSingleton(Options.Create(Guard.AgainstNull(tripleDesOptions)));
+            .AddSingleton<IValidateOptions<TripleDesOptions>, TripleDesOptionsValidator>();
+
+        builder.Services.Configure<TripleDesOptions>(options =>
+        {
+            options.Key = tripleDesOptions.Key;
+        });
 
         return builder;
     }
