@@ -1,22 +1,21 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Shuttle.Core.Contract;
 
-namespace Shuttle.Core.Encryption
+namespace Shuttle.Core.Encryption;
+
+public class EncryptionBuilder
 {
-    public class EncryptionBuilder
+    public EncryptionBuilder(IServiceCollection services)
     {
-        public EncryptionBuilder(IServiceCollection services)
-        {
-            Services = Guard.AgainstNull(services, nameof(services));
-        }
+        Services = Guard.AgainstNull(services);
+    }
 
-        public IServiceCollection Services { get; }
+    public IServiceCollection Services { get; }
 
-        public EncryptionBuilder AddNull()
-        {
-            Services.AddSingleton<IEncryptionAlgorithm, NullEncryptionAlgorithm>();
+    public EncryptionBuilder AddNull()
+    {
+        Services.AddSingleton<IEncryptionAlgorithm, NullEncryptionAlgorithm>();
 
-            return this;
-        }
+        return this;
     }
 }

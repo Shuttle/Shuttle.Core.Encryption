@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
 
-namespace Shuttle.Core.Encryption
+namespace Shuttle.Core.Encryption;
+
+public interface IEncryptionService
 {
-    public interface IEncryptionService
-    {
-        IEncryptionService Add(IEncryptionAlgorithm encryptionAlgorithm);
-        IEncryptionAlgorithm Get(string name);
-        bool Contains(string name);
-        IEnumerable<IEncryptionAlgorithm> Algorithms { get; }
-    }
+    IEnumerable<IEncryptionAlgorithm> Algorithms { get; }
+    IEncryptionService Add(IEncryptionAlgorithm encryptionAlgorithm);
+    bool Contains(string name);
+    IEncryptionAlgorithm Get(string name);
 }
