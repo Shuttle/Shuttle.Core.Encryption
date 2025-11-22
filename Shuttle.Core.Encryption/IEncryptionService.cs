@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Shuttle.Core.Encryption;
+﻿namespace Shuttle.Core.Encryption;
 
 public interface IEncryptionService
 {

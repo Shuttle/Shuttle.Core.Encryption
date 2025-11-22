@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Shuttle.Core.Contract;
+﻿using Shuttle.Core.Contract;
 
 namespace Shuttle.Core.Encryption;
 
@@ -11,7 +8,7 @@ public class EncryptionService : IEncryptionService
 
     public EncryptionService(IEnumerable<IEncryptionAlgorithm>? encryptionAlgorithms = null)
     {
-        foreach (var encryptionAlgorithm in encryptionAlgorithms ?? Enumerable.Empty<IEncryptionAlgorithm>())
+        foreach (var encryptionAlgorithm in encryptionAlgorithms ?? [])
         {
             Add(encryptionAlgorithm);
         }
@@ -31,7 +28,7 @@ public class EncryptionService : IEncryptionService
 
     public IEncryptionAlgorithm Get(string name)
     {
-        Guard.AgainstNullOrEmptyString(name);
+        Guard.AgainstEmpty(name);
 
         if (!_encryptionAlgorithms.TryGetValue(name, out var algorithm))
         {
@@ -43,7 +40,7 @@ public class EncryptionService : IEncryptionService
 
     public bool Contains(string name)
     {
-        return _encryptionAlgorithms.ContainsKey(Guard.AgainstNullOrEmptyString(name));
+        return _encryptionAlgorithms.ContainsKey(Guard.AgainstEmpty(name));
     }
 
     public IEnumerable<IEncryptionAlgorithm> Algorithms => _encryptionAlgorithms.Values;

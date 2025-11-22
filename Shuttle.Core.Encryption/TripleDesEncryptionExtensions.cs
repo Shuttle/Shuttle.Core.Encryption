@@ -6,17 +6,20 @@ namespace Shuttle.Core.Encryption;
 
 public static class TripleDesEncryptionExtensions
 {
-    public static EncryptionBuilder AddTripleDes(this EncryptionBuilder builder, TripleDesOptions tripleDesOptions)
+    extension(EncryptionBuilder builder)
     {
-        Guard.AgainstNull(builder).Services
-            .AddSingleton<IEncryptionAlgorithm, TripleDesEncryptionAlgorithm>()
-            .AddSingleton<IValidateOptions<TripleDesOptions>, TripleDesOptionsValidator>();
-
-        builder.Services.Configure<TripleDesOptions>(options =>
+        public EncryptionBuilder AddTripleDes(TripleDesOptions tripleDesOptions)
         {
-            options.Key = tripleDesOptions.Key;
-        });
+            Guard.AgainstNull(builder).Services
+                .AddSingleton<IEncryptionAlgorithm, TripleDesEncryptionAlgorithm>()
+                .AddSingleton<IValidateOptions<TripleDesOptions>, TripleDesOptionsValidator>();
 
-        return builder;
+            builder.Services.Configure<TripleDesOptions>(options =>
+            {
+                options.Key = tripleDesOptions.Key;
+            });
+
+            return builder;
+        }
     }
 }

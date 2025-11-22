@@ -1,5 +1,3 @@
-using System.Threading.Tasks;
-
 namespace Shuttle.Core.Encryption;
 
 public interface IEncryptionAlgorithm

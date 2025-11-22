@@ -3,14 +3,9 @@ using Shuttle.Core.Contract;
 
 namespace Shuttle.Core.Encryption;
 
-public class EncryptionBuilder
+public class EncryptionBuilder(IServiceCollection services)
 {
-    public EncryptionBuilder(IServiceCollection services)
-    {
-        Services = Guard.AgainstNull(services);
-    }
-
-    public IServiceCollection Services { get; }
+    public IServiceCollection Services { get; } = Guard.AgainstNull(services);
 
     public EncryptionBuilder AddNull()
     {
