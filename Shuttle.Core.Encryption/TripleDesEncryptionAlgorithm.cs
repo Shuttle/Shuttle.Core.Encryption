@@ -37,48 +37,42 @@ public class TripleDesEncryptionAlgorithm : IEncryptionAlgorithm
 
     public string Name => "3DES";
 
-    public async Task<byte[]> EncryptAsync(byte[] bytes)
+    public async Task<byte[]> EncryptAsync(byte[] bytes, CancellationToken cancellationToken = default)
     {
         Guard.AgainstNull(bytes);
 
-        byte[] encryptedBytes;
+        using var ms = new MemoryStream(bytes.Length * 2 - 1);
+        await using var cs = new CryptoStream(ms, _provider.CreateEncryptor(), CryptoStreamMode.Write);
 
-        using (var ms = new MemoryStream(bytes.Length * 2 - 1))
-        await using (var cs = new CryptoStream(ms, _provider.CreateEncryptor(), CryptoStreamMode.Write))
-        {
-            await cs.WriteAsync(bytes, 0, bytes.Length).ConfigureAwait(false);
+        await cs.WriteAsync(bytes, 0, bytes.Length, cancellationToken).ConfigureAwait(false);
 
-            await cs.FlushFinalBlockAsync();
+        await cs.FlushFinalBlockAsync(cancellationToken);
 
-            encryptedBytes = new byte[(int)ms.Length];
+        var encryptedBytes = new byte[(int)ms.Length];
 
-            ms.Position = 0;
+        ms.Position = 0;
 
-            _ = await ms.ReadAsync(encryptedBytes, 0, (int)ms.Length).ConfigureAwait(false);
-        }
+        _ = await ms.ReadAsync(encryptedBytes, 0, (int)ms.Length, cancellationToken).ConfigureAwait(false);
 
         return encryptedBytes;
     }
 
-    public async Task<byte[]> DecryptAsync(byte[] bytes)
+    public async Task<byte[]> DecryptAsync(byte[] bytes, CancellationToken cancellationToken = default)
     {
         Guard.AgainstNull(bytes);
 
-        byte[] plainBytes;
+        using var ms = new MemoryStream(bytes.Length);
+        await using var cs = new CryptoStream(ms, _provider.CreateDecryptor(), CryptoStreamMode.Write);
 
-        using (var ms = new MemoryStream(bytes.Length))
-        await using (var cs = new CryptoStream(ms, _provider.CreateDecryptor(), CryptoStreamMode.Write))
-        {
-            await cs.WriteAsync(bytes, 0, bytes.Length).ConfigureAwait(false);
+        await cs.WriteAsync(bytes, 0, bytes.Length, cancellationToken).ConfigureAwait(false);
 
-            await cs.FlushFinalBlockAsync();
+        await cs.FlushFinalBlockAsync(cancellationToken);
 
-            plainBytes = new byte[(int)ms.Length];
+        var plainBytes = new byte[(int)ms.Length];
 
-            ms.Position = 0;
+        ms.Position = 0;
 
-            _ = await ms.ReadAsync(plainBytes, 0, (int)ms.Length).ConfigureAwait(false);
-        }
+        _ = await ms.ReadAsync(plainBytes, 0, (int)ms.Length, cancellationToken).ConfigureAwait(false);
 
         return plainBytes;
     }

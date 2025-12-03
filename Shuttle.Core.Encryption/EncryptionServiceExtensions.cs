@@ -6,14 +6,14 @@ public static class EncryptionServiceExtensions
 {
     extension(IEncryptionService encryptionService)
     {
-        public async Task<byte[]> DecryptAsync(string name, byte[] bytes)
+        public async Task<byte[]> DecryptAsync(string name, byte[] bytes, CancellationToken cancellationToken = default)
         {
-            return await Guard.AgainstNull(encryptionService).Get(name).DecryptAsync(bytes);
+            return await Guard.AgainstNull(encryptionService).Get(name).DecryptAsync(bytes, cancellationToken);
         }
 
-        public async Task<byte[]> EncryptAsync(string name, byte[] bytes)
+        public async Task<byte[]> EncryptAsync(string name, byte[] bytes, CancellationToken cancellationToken = default)
         {
-            return await Guard.AgainstNull(encryptionService).Get(name).EncryptAsync(bytes);
+            return await Guard.AgainstNull(encryptionService).Get(name).EncryptAsync(bytes, cancellationToken);
         }
     }
 }
