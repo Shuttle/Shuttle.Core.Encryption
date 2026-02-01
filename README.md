@@ -4,39 +4,57 @@ Provides an encryption adapter through the `IEncryptionAlgorithm` interface.
 
 Implementations available in this package:
 
-- `TripleDesEncryptionAlgorithm`
-- `NullEncryptionAlgorithm`
+- `TripleDesEncryptionAlgorithm` (name '3DES')
+- `NullEncryptionAlgorithm` (name 'nukk')
 
 There is also an `IEncryptionService` that acts as a central container for all registered `IEncryptionAlgorithm` implementations.
 
-## Configuration
+## Installation
 
-In order to add encryption:
+```bash
+dotnet add package Shuttle.Core.Encryption
+```
+
+## Configuration
 
 ```c#
 services.AddEncryption(builder => {
-	builder.AddTripleDes(tripleDesOptions);
+    builder.AddTripleDes(options => {
+        options.Key = "your-secret-key-here";
+    });
 });
 ```
 
-Will try to add the `EncryptionService` singleton, with an option to add the `TripleDesEncryptionAlgorithm` instance using the given symmetric `Key`.
+### JSON Configuration
 
-The default JSON settings structure is as follows:
+The default JSON settings structure reads from your app configuration:
 
 ```json
 {
-	"Shuttle": {
-		"TripleDes": {
-			"Key": "triple-des-key"
-		}
-	}
+  "Shuttle": {
+    "TripleDes": {
+      "Key": "triple-des-key"
+    }
+  }
 }
 ```
 
 ## Usage
 
+### Basic Usage
+
 ```c#
-var algorithm = encryptionService.Get("algorithm-name");
-var encrypted = await algorithm.EncryptAsync(Encoding.UTF8.GetBytes("some data"));
+// Get the encryption service via dependency injection
+var encryptionService = serviceProvider.GetRequiredService<IEncryptionService>();
+
+// Get a specific encryption algorithm by name
+var algorithm = encryptionService.Get("3DES");
+
+// Encrypt data
+var plainData = Encoding.UTF8.GetBytes("some data");
+var encrypted = await algorithm.EncryptAsync(plainData);
+
+// Decrypt data
 var decrypted = await algorithm.DecryptAsync(encrypted);
+var decryptedText = Encoding.UTF8.GetString(decrypted);
 ```
